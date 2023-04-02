@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import '../styles/App.css';
 import { Loader } from './Loader';
 import { PhotoFrame } from './PhotoFrame';
@@ -9,7 +9,7 @@ const App = () => {
 
     const callApi = (number) => {
         setLoader(true);
-        fetch('https://jsonplaceholder.typicode.com/photos'+number)
+        fetch('https://jsonplaceholder.typicode.com/photos/'+number)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -17,27 +17,29 @@ const App = () => {
             setLoader(false);
         })
     }
+
     useEffect(() => {
         console.log('image - ', image);
     }, [image])
-    
+
     const updateInput = (e) => {
-        console.log('nummber - ', e.target.value);
+        console.log('number - ', e.target.value);
         callApi(e.target.value);
     }
 
     return(
         <>
-        Id number <input type="number" onChange={updateInput} />
-        {
-            (loader) && <Loader/>
-        }
-        {
-            (Object.keys(image).length !== 0 && !loader) && <Photoframe url={image.url} title={image.title}/>
-        }
+            Id number  <input type="number" onChange={updateInput}/>
+
+            {
+                (loader) && <Loader />
+            }
+
+            {
+                (Object.keys(image).length !== 0 && !loader) && <PhotoFrame url={image.url} title={image.title}/>
+            }
         </>
     )
-
 }
 
 
